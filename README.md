@@ -167,6 +167,7 @@ Authorization: Bearer <token retrieved from register or login response>
 - When testing in Postman, use the Headers tab, not Authorization tab.
 - Make sure the Authorization tab is not populated with any values (including vault variables) as this will override the Authorization Header and not return the appropriate response.
 - If running into issues with Tasks endpoints, check the Task database entry `user` value against the `_id` in the User database entry and confirm the values match.
+- If running into issues with expected values not returning (ie. empty list where expected list of Tasks is expected for user), paste Authorization header into jwt.io and check against the expected `_id` from User database in MongoDB Atlas.
 
 ## Any known issues or future improvements
 
