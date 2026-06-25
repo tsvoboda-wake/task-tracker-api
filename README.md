@@ -61,6 +61,8 @@ A simple application for task item management for authenticated users.
 
 The following variables should be supplied in `.env` in the project's root.
 
+| | |
+|-|-|
 | PORT=3000 | Port used when running server on localhost |
 | MONGO_URI | Connection URI used to connect MongoBD Atlas Database |
 | JWT_SECRET | String used to verify JWT Token |
@@ -162,4 +164,12 @@ Authorization: Bearer <token retrieved from register or login response>
 
 ## Testing Notes
 
+- When testing in Postman, use the Headers tab, not Authorization tab.
+- Make sure the Authorization tab is not populated with any values (including vault variables) as this will override the Authorization Header and not return the appropriate response.
+
 ## Any known issues or future improvements
+
+Possible future improvements:
+
+- On new task creation, assign a simpler id value (ie. length of task list +1) versus auto-generated string.
+- Add a list all users endpoint for testing ease (currently looking up user credentials in MongoDB Atlas).
