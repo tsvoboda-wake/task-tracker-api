@@ -61,11 +61,11 @@ A simple application for task item management for authenticated users.
 
 The following variables should be supplied in `.env` in the project's root.
 
-| | |
-|-|-|
-| PORT=3000 | Port used when running server on localhost |
-| MONGO_URI | Connection URI used to connect MongoBD Atlas Database |
-| JWT_SECRET | String used to verify JWT Token |
+|            |                                                       |
+| ---------- | ----------------------------------------------------- |
+| PORT=3000  | Port used when running server on localhost            |
+| MONGO_URI  | Connection URI used to connect MongoBD Atlas Database |
+| JWT_SECRET | String used to verify JWT Token                       |
 
 ## API Route Overview
 
@@ -154,7 +154,7 @@ Request body (no fields required, any or all may be included to update those val
 
 Deletes a single task for an authenticated user.
 
-Replace `:id` with the desired task id returned from get tasks response.
+Replace `:id` with the desired task `_id` value returned from get tasks response.
 
 Request header:
 
@@ -166,6 +166,7 @@ Authorization: Bearer <token retrieved from register or login response>
 
 - When testing in Postman, use the Headers tab, not Authorization tab.
 - Make sure the Authorization tab is not populated with any values (including vault variables) as this will override the Authorization Header and not return the appropriate response.
+- If running into issues with Tasks endpoints, check the Task database entry `user` value against the `_id` in the User database entry and confirm the values match.
 
 ## Any known issues or future improvements
 
