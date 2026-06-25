@@ -25,6 +25,8 @@ A simple application for task item management for authenticated users.
 
 ### Dependencies
 
+| | |
+|-|-|
 | bcryptjs | Used to encrypt user password for safe storage |
 | dotenv | Used to read variables from `.env` file |
 | express | Used for routing and RESTful api endpoints |
