@@ -25,21 +25,21 @@ A simple application for task item management for authenticated users.
 
 ### Dependencies
 
-| | |
-|-|-|
-| bcryptjs | Used to encrypt user password for safe storage |
-| dotenv | Used to read variables from `.env` file |
-| express | Used for routing and RESTful api endpoints |
-| jsonwebtoken | Used to verify JWT token during user authentication |
-| mongodb | Used to connect to MongoDB Database |
-| mongoose | Framework used to employ Schemas and Models used in conjunction with MongoDB |
-| nodemon | Used for development to automatically restart the local server on code change |
+|              |                                                                               |
+| ------------ | ----------------------------------------------------------------------------- |
+| bcryptjs     | Used to encrypt user password for safe storage                                |
+| dotenv       | Used to read variables from `.env` file                                       |
+| express      | Used for routing and RESTful api endpoints                                    |
+| jsonwebtoken | Used to verify JWT token during user authentication                           |
+| mongodb      | Used to connect to MongoDB Database                                           |
+| mongoose     | Framework used to employ Schemas and Models used in conjunction with MongoDB  |
+| nodemon      | Used for development to automatically restart the local server on code change |
 
 ## Local setup instructions
 
 ### Prerequisites
 
-- Create a MongoDB Atlas 
+- Create a MongoDB Atlas
   - Create and Connect to database cluster
   - Copy the Connection URI for later use in `.env` file
 - Create a Postman account
@@ -61,23 +61,104 @@ A simple application for task item management for authenticated users.
 
 The following variables should be supplied in `.env` in the project's root.
 
-| PORT=3000  | Port used when running server on localhost |
-| MONGO_URI  | Connection URI used to connect MongoBD Atlas Database |
+| PORT=3000 | Port used when running server on localhost |
+| MONGO_URI | Connection URI used to connect MongoBD Atlas Database |
 | JWT_SECRET | String used to verify JWT Token |
 
 ## API Route Overview
 
 ### POST /api/auth/register
 
+Registers a user, adding the new user object to the Users database.
+
+On success, returns a success message, the user object, and the Authorization header required for Task requests.
+
+Request body (all fields required):
+
+```
+{
+  "name": String,
+  "email": String,
+  "password": String
+}
+```
+
 ### POST /api/auth/login
+
+Authenticates an existing user.
+
+On success, returns a success message, the user object, and the Authorization header required for Task requests.
+
+Request body (all fields required):
+
+```
+{
+  "email": String,
+  "password": String
+}
+```
 
 ### POST /api/tasks
 
+Creates a single task for an authenticated user.
+
+Request header:
+
+```
+Authorization: Bearer <token retrieved from register or login response>
+```
+
+Request body (all fields required):
+
+```
+{
+  "title": String,
+  "description": String,
+  "completed": Boolean
+}
+```
+
 ### GET /api/tasks
+
+Retrieves all tasks created by the currently authenticated user.
+
+Request header:
+
+```
+Authorization: Bearer <token retrieved from register or login response>
+```
 
 ### PUT /api/tasks/:id
 
+Updates a single task for an authenticated user.
+
+Request header:
+
+```
+Authorization: Bearer <token retrieved from register or login response>
+```
+
+Request body (no fields required, any or all may be included to update those values in the Task database entry):
+
+```
+{
+  "title": String,
+  "description": String,
+  "completed": Boolean
+}
+```
+
 ### DELETE /api/tasks/:id
+
+Deletes a single task for an authenticated user.
+
+Replace `:id` with the desired task id returned from get tasks response.
+
+Request header:
+
+```
+Authorization: Bearer <token retrieved from register or login response>
+```
 
 ## Testing Notes
 
