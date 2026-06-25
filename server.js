@@ -3,12 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const { PORT, JWT_SECRET, MONGO_URI } = process.env;
-const mongoose = require('mongoose');
-
-// TODO: create Mongo DB
-mongoose.connect(MONGO_URI)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.log('Database connection error:', err));
+const connectDB = require('./config/db');
 
 app.use(express.json());
 
@@ -24,10 +19,12 @@ const taskRoutes = require('./routes/taskRoutes');
 // Connect auth routes
 app.use('/', authRoutes);
 
-  
 // Connect task routes
-app.use('/api/tasks', taskRoutes);
+app.use('/', taskRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+// Connect to database
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
 });
