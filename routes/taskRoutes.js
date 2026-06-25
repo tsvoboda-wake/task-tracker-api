@@ -29,16 +29,51 @@ router.post('/api/tasks', authMiddleware, async (req, res) => {
 router.get('/api/tasks', authMiddleware, async (req, res) => {
   try {
     const tasks = await Task.find({ user: req.user.id });
-    console.log('req.user:', req.user);
-    console.log('tasks found:', tasks);
-    console.log('task count in DB:', await Task.countDocuments());
     res.status(200).json(tasks);
   } catch (error) {
     res.status(500).json({ message: error.message || 'Unable to fetch tasks' });
   }
 });
 
-// PUT /api/tasks/:id
-// DELETE /api/tasks/:id
+router.put('/api/tasks/:id', authMiddleware, async (req, res) => {
+  const { id } = req.params;
+
+  // Check which fields are present in the request body and only update those fields.
+  const updates = {};
+  if (req.body.title !== undefined) updates.title = req.body.title;
+  if (req.body.description !== undefined)
+    updates.description = req.body.description;
+  if (req.body.completed !== undefined) updates.completed = req.body.completed;
+
+  try {
+    const updatedTask = await Task.findByIdAndUpdate(id, updates, {
+      new: true
+    });
+
+    if (!updatedTask) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+
+    res.status(200).json(updatedTask);
+  } catch (error) {
+    res.status(400).json({ message: error.message || 'Unable to update task' });
+  }
+});
+
+router.delete('/api/tasks/:id', authMiddleware, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedTask = await Task.findByIdAndDelete(id);
+
+    if (!deletedTask) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+
+    res.status(200).json({ message: 'Task deleted successfully' });
+  } catch (error) {
+    res.status(400).json({ message: error.message || 'Unable to delete task' });
+  }
+});
 
 module.exports = router;
